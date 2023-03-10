@@ -3,7 +3,6 @@ package com.multiplex.services;
 import java.util.List;
 
 import com.multiplex.dto.MovieDTO;
-import com.multiplex.entities.User;
 import com.multiplex.exception.MovieNotFoundException;
 
 public interface MovieServices {

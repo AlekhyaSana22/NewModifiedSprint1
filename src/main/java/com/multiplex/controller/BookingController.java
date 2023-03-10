@@ -24,23 +24,23 @@ public class BookingController {
 	@GetMapping(value="/booking")
 	public ResponseEntity<List<BookingDTO>> getAllBookings() throws BookingNotFoundException{
 		List<BookingDTO> bookingList=bookingServices.getAllBookings();
-		return new ResponseEntity<List<BookingDTO>>(bookingList,HttpStatus.OK);
+		return new ResponseEntity<>(bookingList,HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/booking")
 	public ResponseEntity<String> addBooking(@RequestBody BookingDTO booking){
-		Integer bookingId=bookingServices.addBooking(booking);
-		return new ResponseEntity<String>("API.INSERT_CREATED", HttpStatus.OK);
+		bookingServices.addBooking(booking);
+		return new ResponseEntity<>("API.INSERT_CREATED", HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/booking/{bookingId}")
 	public ResponseEntity<BookingDTO> getBookingById(@PathVariable Integer bookingId) throws BookingNotFoundException{
 		BookingDTO booking=bookingServices.getBookingById(bookingId);
-		return new ResponseEntity<BookingDTO>(booking, HttpStatus.OK);
+		return new ResponseEntity<>(booking, HttpStatus.OK);
 	}
 	@DeleteMapping(value="/booking/{bookingId}")
-		public ResponseEntity deleteBookingById(@PathVariable Integer bookingId) throws BookingNotFoundException{
+		public ResponseEntity<String> deleteBookingById(@PathVariable Integer bookingId) throws BookingNotFoundException{
 			bookingServices.deleteBookingById(bookingId);
-			return new ResponseEntity("API.DELETE_SUCCESS", HttpStatus.OK);
+			return new ResponseEntity<>("API.DELETE_SUCCESS", HttpStatus.OK);
 		}
 	}

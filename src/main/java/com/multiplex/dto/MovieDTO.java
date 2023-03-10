@@ -10,7 +10,6 @@ public class MovieDTO {
 	private LocalTime time;
 	public MovieDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public MovieDTO(Integer movieId, String movieName, LocalDate date, LocalTime time) {
 		super();

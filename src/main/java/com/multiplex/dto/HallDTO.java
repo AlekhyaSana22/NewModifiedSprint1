@@ -9,7 +9,6 @@ private Integer seatsNo;
 
 public HallDTO() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 
 public HallDTO(Integer hallId, Movie movie, Integer seatsNo) {

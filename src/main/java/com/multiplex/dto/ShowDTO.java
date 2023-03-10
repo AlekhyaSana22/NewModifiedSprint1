@@ -1,14 +1,12 @@
 package com.multiplex.dto;
 
 import com.multiplex.entities.Hall;
-import com.multiplex.entities.Movie;
 
 public class ShowDTO {
 private Integer showId;
 private Hall hall;
 public ShowDTO() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 public ShowDTO(Integer showId, Hall hall) {
 	super();

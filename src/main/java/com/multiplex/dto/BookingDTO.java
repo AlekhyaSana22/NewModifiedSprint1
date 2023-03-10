@@ -14,7 +14,6 @@ private LocalDate date;
 private LocalTime time;
 public BookingDTO() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 public BookingDTO(Integer bookingId, User user, Show show, LocalDate date, LocalTime time) {
 	super();

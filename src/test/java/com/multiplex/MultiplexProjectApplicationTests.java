@@ -1,20 +1,15 @@
 package com.multiplex;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
- 
-
-import com.multiplex.entities.User;
-import com.multiplex.repository.UserRepository;
-
- 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class MultiplexProjectApplicationTests {
+public class MultiplexProjectApplicationTests {
 
- 
+	@Test
+	public void contextLoads() {
+	}
 
-     @Autowired
-        private UserRepository userRespository;
-        }
+}

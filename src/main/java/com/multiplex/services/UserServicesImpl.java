@@ -39,7 +39,6 @@ public class UserServicesImpl implements UserServices{
 	}
 	@Override
 	public User addUser(UserDTO userDto) throws UserAlreadyExistsException{
-		// TODO Auto-generated method stub
 		if(userRepository.findByEmailId(userDto.getEmailId()).isEmpty()) {
 		User userEntity=new User();
 		userEntity.setUserId(userDto.getUserId());
@@ -47,8 +46,7 @@ public class UserServicesImpl implements UserServices{
 		userEntity.setEmailId(userDto.getEmailId());
 		userEntity.setPassword(userDto.getPassword());
 		userEntity.setPhoneNumber(userDto.getPhoneNumber());
-		User user=userRepository.save(userEntity);
-		return user;
+		return userRepository.save(userEntity);
 		}
 		else {
 		throw new UserAlreadyExistsException();
@@ -56,9 +54,8 @@ public class UserServicesImpl implements UserServices{
 	}
 	@Override
 	public UserDTO getUserById(Integer userId) throws UserNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<User> optional = userRepository.findById(userId);
-		User user = optional.orElseThrow(() -> new UserNotFoundException());
+		User user = optional.orElseThrow(UserNotFoundException::new);
 		UserDTO user2=new UserDTO();
 		user2.setUserId(user.getUserId());
 		user2.setUserName(user.getUserName());
@@ -69,9 +66,8 @@ public class UserServicesImpl implements UserServices{
 	}
 	@Override
 	public void deleteUser(Integer userId) throws UserNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<User> optional = userRepository.findById(userId);
-		User user=optional.orElseThrow(() -> new UserNotFoundException());
+		User user=optional.orElseThrow(UserNotFoundException::new);
 		UserDTO user2=new UserDTO();
 		user2.setUserId(user.getUserId());
 		user2.setUserName(user.getUserName());
@@ -80,28 +76,26 @@ public class UserServicesImpl implements UserServices{
 		user2.setPhoneNumber(user.getPhoneNumber());
 		userRepository.deleteById(userId);
 	}
-	@Override
-	public List<UserDTO> getUserByName(String userName) throws UserNotFoundException{
-		// TODO Auto-generated method stub
-		Iterable<User> users = userRepository.findUserByName(userName);
-		List<UserDTO> users2 = new ArrayList<>();
-		users.forEach(user ->{
-		UserDTO user1=new UserDTO();
-		user1.setUserId(user.getUserId());
-		user1.setUserName(user.getUserName());
-		user1.setEmailId(user.getEmailId());
-		user1.setPassword(user.getPassword());
-		user1.setPhoneNumber(user.getPhoneNumber());
-		users2.add(user1);
-		});
-		if(users2.isEmpty()) {
-			throw new UserNotFoundException();
-		}
-return users2;
-	}
+//	@Override
+//	public List<UserDTO> getUserByName(String userName) throws UserNotFoundException{
+//		Iterable<User> users = userRepository.findUserByName(userName);
+//		List<UserDTO> users2 = new ArrayList<>();
+//		users.forEach(user ->{
+//		UserDTO user1=new UserDTO();
+//		user1.setUserId(user.getUserId());
+//		user1.setUserName(user.getUserName());
+//		user1.setEmailId(user.getEmailId());
+//		user1.setPassword(user.getPassword());
+//		user1.setPhoneNumber(user.getPhoneNumber());
+//		users2.add(user1);
+//		});
+//		if(users2.isEmpty()) {
+//			throw new UserNotFoundException();
+//		}
+//return users2;
+//}
 	@Override
 	public void updateUserByEmailId(Integer userId, String emailId) throws UserNotFoundException {
-		// TODO Auto-generated method stub
 		if(userRepository.existsById(userId)) {
 			User user=userRepository.findById(userId).get();
 			user.setEmailId(emailId);
@@ -111,6 +105,35 @@ return users2;
 			throw new UserNotFoundException();
 		}
 	}
+//	//check the login by validating both the email id and password
+//		public String loginUser(User user) throws UserNotFoundException {
+//			if(UserRepository.validateUser(user.getEmailId(),user.getPassword()).isEmpty())
+//				{
+//					throw new UserNotFoundException("Invalid User");
+//				}
+//			return "Login Successful";
+//		}
+
+	    @Override
+	    public boolean findByUserNameAndPassword(String userName, String password) {
+	        User user = userRepository.findByUserName(userName);
+	        if (user != null && user.getPassword().equals(password)) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    }
+
+	    // Other methods for user registration, logout, etc.
+	    // ...
+	}
+
+		
+//		@Override
+//		public User findByEmailAndPassword(String emailId, String password) {
+//	        return userRepository.findByEmailAndPassword(emailId, password);
+//		}
 
 
-}
+
+

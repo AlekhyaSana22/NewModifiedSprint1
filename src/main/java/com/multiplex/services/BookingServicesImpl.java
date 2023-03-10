@@ -36,7 +36,6 @@ public class BookingServicesImpl implements BookingServices{
           }
 	@Override
 	public Integer addBooking(BookingDTO booking) {
-		// TODO Auto-generated method stub
 		Booking bookingEntity=new Booking();
 		bookingEntity.setBookingId(booking.getBookingId());
 		bookingEntity.setUser(booking.getUser());
@@ -49,9 +48,8 @@ public class BookingServicesImpl implements BookingServices{
 	}
 	@Override
 	public BookingDTO getBookingById(Integer bookingId) throws BookingNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Booking> optional=bookingRepository.findById(bookingId);
-		Booking booking=optional.orElseThrow(() -> new BookingNotFoundException());
+		Booking booking=optional.orElseThrow(BookingNotFoundException::new);
 		BookingDTO booking2=new BookingDTO();
 		booking2.setBookingId(booking.getBookingId());
 		booking2.setUser(booking.getUser());
@@ -63,9 +61,8 @@ public class BookingServicesImpl implements BookingServices{
 	}
 	@Override
 	public void deleteBookingById(Integer bookingId) throws BookingNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Booking> optional=bookingRepository.findById(bookingId);
-		Booking booking=optional.orElseThrow(() -> new BookingNotFoundException());
+		Booking booking=optional.orElseThrow(BookingNotFoundException::new);
 		BookingDTO booking2=new BookingDTO();
 		booking2.setBookingId(booking.getBookingId());
 		booking2.setDate(booking.getDate());
@@ -74,5 +71,17 @@ public class BookingServicesImpl implements BookingServices{
 		booking2.setUser(booking.getUser());
 		bookingRepository.deleteById(bookingId);
 	}
+public void cancelBooking(Integer bookingId) throws BookingNotFoundException {
+		
+		if(bookingRepository.existsById(bookingId)) {
+			Booking book=bookingRepository.getOne( bookingId);
+			bookingRepository.delete(book);
+			
+		}
+		else
+			throw new BookingNotFoundException();
+		
+	}
+
 	}
 

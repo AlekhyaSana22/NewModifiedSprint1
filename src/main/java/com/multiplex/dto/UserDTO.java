@@ -8,7 +8,6 @@ private String emailId;
 private String password;
 public UserDTO() {
 	super();
-	// TODO Auto-generated constructor stub
 }
 public UserDTO(Integer userId, String userName, String phoneNumber, String emailId, String password) {
 	super();

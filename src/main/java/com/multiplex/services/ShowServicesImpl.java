@@ -19,7 +19,6 @@ public class ShowServicesImpl implements ShowServices{
 	private ShowRepository showRepository;
 	@Override
 	public List<ShowDTO> getAllShows() throws ShowNotFoundException{
-		// TODO Auto-generated method stub
 		Iterable<Show> shows=showRepository.findAll();
 		List<ShowDTO> shows2=new ArrayList<>();
 		shows.forEach(show -> {
@@ -35,7 +34,6 @@ public class ShowServicesImpl implements ShowServices{
 	}
 	@Override
 	public Integer addShow(ShowDTO show) {
-		// TODO Auto-generated method stub
 		Show showEntity=new Show();
 		showEntity.setShowId(show.getShowId());
 		showEntity.setHall(show.getHall());
@@ -45,9 +43,8 @@ public class ShowServicesImpl implements ShowServices{
 	}
 	@Override
 	public ShowDTO getShowById(Integer showId) throws ShowNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Show> optional=showRepository.findById(showId);
-		Show show=optional.orElseThrow(() -> new ShowNotFoundException());
+		Show show=optional.orElseThrow(ShowNotFoundException::new);
 		ShowDTO show2=new ShowDTO();
 		show2.setShowId(show.getShowId());
 		show2.setHall(show.getHall());
@@ -56,9 +53,8 @@ public class ShowServicesImpl implements ShowServices{
 	}
 	@Override
 	public void deleteShowById(Integer showId) throws ShowNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Show> optional=showRepository.findById(showId);
-		Show show=optional.orElseThrow(() -> new ShowNotFoundException());
+		Show show=optional.orElseThrow(ShowNotFoundException::new);
 		ShowDTO show2=new ShowDTO();
 		show2.setShowId(show.getShowId());
 		show2.setHall(show.getHall());

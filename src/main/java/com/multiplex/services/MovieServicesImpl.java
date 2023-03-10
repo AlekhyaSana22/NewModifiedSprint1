@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.multiplex.dto.MovieDTO;
-import com.multiplex.dto.UserDTO;
 import com.multiplex.entities.Movie;
-import com.multiplex.entities.User;
 import com.multiplex.exception.MovieNotFoundException;
 import com.multiplex.repository.MovieRepository;
 @Service(value="movieservice")
@@ -27,7 +25,7 @@ public class MovieServicesImpl implements MovieServices{
 			movie1.setMovieId(movie.getMovieId());
 			movie1.setMovieName(movie.getMovieName());
 			movie1.setDate(movie.getDate());
-			movie1.setTime(movie.getTime());
+			movie1.setTime(movie.getDuration());
 			movies2.add(movie1);
 		});
 		if(movies2.isEmpty()) {
@@ -37,45 +35,41 @@ public class MovieServicesImpl implements MovieServices{
 	}
 	@Override
 	public Integer addMovie(MovieDTO movie) {
-		// TODO Auto-generated method stub
 		Movie movieEntity=new Movie();
 		movieEntity.setMovieId(movie.getMovieId());
 		movieEntity.setMovieName(movie.getMovieName());
 		movieEntity.setDate(movie.getDate());
-		movieEntity.setTime(movie.getTime());
+		movieEntity.setDuration(movie.getTime());
 		Movie movieEntity2=movieRepository.save(movieEntity);
         return movieEntity2.getMovieId();
 		
 	}
 	@Override
 	public MovieDTO getMovieById(Integer movieId) throws MovieNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Movie> optional=movieRepository.findById(movieId);
-		Movie movie=optional.orElseThrow(() ->  new MovieNotFoundException());
+		Movie movie=optional.orElseThrow(MovieNotFoundException::new);
 		MovieDTO movie2=new MovieDTO();
 		movie2.setMovieId(movie.getMovieId());
 		movie2.setMovieName(movie.getMovieName());
 		movie2.setDate(movie.getDate());
-		movie2.setTime(movie.getTime());
+		movie2.setTime(movie.getDuration());
 		return movie2;
 
 	}
 	@Override
 	public void deleteMovie(Integer movieId) throws MovieNotFoundException{
-		// TODO Auto-generated method stub
 		Optional<Movie> optional=movieRepository.findById(movieId);
-		Movie movie=optional.orElseThrow(()-> new MovieNotFoundException());
+		Movie movie=optional.orElseThrow(MovieNotFoundException::new);
 		MovieDTO movie2=new MovieDTO();
 		movie2.setMovieId(movie.getMovieId());
 		movie2.setMovieName(movie.getMovieName());
 		movie2.setDate(movie.getDate());
-		movie2.setTime(movie.getTime());
+		movie2.setTime(movie.getDuration());
 		movieRepository.deleteById(movieId);
 		
 	}
 	@Override
 	public List<MovieDTO> getMovieByName(String movieName) throws MovieNotFoundException{
-		// TODO Auto-generated method stub		
 		Iterable<Movie> movies= movieRepository.getMovieByName(movieName);
 		List<MovieDTO> movies2=new ArrayList<>();
 		movies.forEach(movie -> {
@@ -83,7 +77,7 @@ public class MovieServicesImpl implements MovieServices{
 			movie1.setMovieId(movie.getMovieId());
 			movie1.setMovieName(movie.getMovieName());
 			movie1.setDate(movie.getDate());
-			movie1.setTime(movie.getTime());
+			movie1.setTime(movie.getDuration());
 			movies2.add(movie1);
 		});
 		if(movies2.isEmpty()) {
@@ -94,7 +88,6 @@ public class MovieServicesImpl implements MovieServices{
 	
 	@Override
 	public void updateMovieByName(Integer movieId, String movieName) throws MovieNotFoundException{
-		// TODO Auto-generated method stub
 		if(movieRepository.existsById(movieId)) {
 		Movie movie=movieRepository.findById(movieId).get();
 		movie.setMovieName(movieName);

@@ -1,6 +1,7 @@
 package com.multiplex.services;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,20 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.multiplex.dto.HallDTO;
 import com.multiplex.entities.Hall;
-import com.multiplex.entities.Movie;
 import com.multiplex.exception.HallNotFoundExcepiton;
 import com.multiplex.repository.HallRepository;
-import com.multiplex.repository.MovieRepository;
 
 @Service(value="hallservice")
 public class HallServicesImpl implements HallServices{
 
 	@Autowired
 	private HallRepository hallRepository;
-	private MovieRepository movieRespository;
 	@Override
 	public List<HallDTO> getAllHalls() throws HallNotFoundExcepiton{
-		// TODO Auto-generated method stub
 		Iterable<Hall> halls=hallRepository.findAll();
 		List<HallDTO> halls2=new ArrayList<>();
 		halls.forEach(hall -> {
@@ -39,10 +36,9 @@ public class HallServicesImpl implements HallServices{
 	}
 	@Override
 	public Integer addHall(HallDTO hall) {
-		// TODO Auto-generated method stub
 		Hall hallEntity=new Hall();
 		hallEntity.setHallId(hall.getHallId());
-		hallEntity.setMovie(hall.getMovie());
+//		hallEntity.listMovies(hall.getMovie());
 		hallEntity.setSeatsNo(hall.getSeatsNo());
 		Hall hallEntity2=hallRepository.save(hallEntity);
 		
@@ -50,9 +46,8 @@ public class HallServicesImpl implements HallServices{
 	}
 	@Override
 	public HallDTO gethallById(Integer hallId) throws HallNotFoundExcepiton{
-		// TODO Auto-generated method stub
 		Optional<Hall> optional=hallRepository.findById(hallId);
-		Hall hall=optional.orElseThrow(() -> new HallNotFoundExcepiton());
+		Hall hall=optional.orElseThrow(HallNotFoundExcepiton::new);
 		HallDTO hall2=new HallDTO();
 		hall2.setHallId(hall.getHallId());
 		hall2.setMovie(hall.getMovie());
@@ -62,9 +57,8 @@ public class HallServicesImpl implements HallServices{
 	}
 	@Override
 	public void deleteHallById(Integer hallId) throws HallNotFoundExcepiton{
-		// TODO Auto-generated method stub
 		Optional<Hall> optional=hallRepository.findById(hallId);
-		Hall hall=optional.orElseThrow(() -> new HallNotFoundExcepiton());
+		Hall hall=optional.orElseThrow(HallNotFoundExcepiton::new);
 		HallDTO hall2=new HallDTO(); 
 		hall2.setHallId(hall.getHallId());
 		hall2.setMovie(hall.getMovie());
@@ -72,13 +66,11 @@ public class HallServicesImpl implements HallServices{
 		hallRepository.deleteById(hallId);
 		
 	}
+
 	@Override
-	public void updateMovieByName(Integer hallId, Integer movieId) {
-		// TODO Auto-generated method stub
-		Hall hall=hallRepository.findById(hallId).get();
-		Movie movie=new Movie();
-		hall.setMovie(movie);
-        movie.setMovieId(movieId);
-        hallRepository.save(hall);
-}
+	public void updateHallBySeatsNo(Integer hallId, Integer seatsNo) {
+		    Hall hall = hallRepository.findById(hallId).orElseThrow(() -> new HallNotFoundExcepiton());
+		    hall.setSeatsNo(seatsNo);
+		    hallRepository.save(hall);
+		}
 }
